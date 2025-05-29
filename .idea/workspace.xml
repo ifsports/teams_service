@@ -7,6 +7,7 @@
     <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: create endpoints for team_members (create, read, delete)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +46,7 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1748546096" />
+                    <option name="lastUsedInstant" value="1748562059" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="master" />
@@ -92,7 +93,7 @@
     "Python.teams_router.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#7 on develop",
+    "git-widget-placeholder": "develop",
     "last_opened_file_path": "/home/gustavo/Documentos/INTEGRADOR/teams_service"
   }
 }]]></component>
@@ -121,6 +122,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.main" />
@@ -199,7 +201,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748543842912</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat: add Dockerfile for containerization">
+      <option name="closed" value="true" />
+      <created>1748561942725</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748561942726</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -214,6 +224,7 @@
     <MESSAGE value="feat: creates custom HTTPException (Notfound and Conflict)" />
     <MESSAGE value="feat: updates team and team_member schemas and models" />
     <MESSAGE value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
+    <MESSAGE value="feat: add Dockerfile for containerization" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add Dockerfile for containerization" />
   </component>
 </project>
