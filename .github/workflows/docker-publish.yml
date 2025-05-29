@@ -1,0 +1,34 @@
+# Nome do seu Workflow
+name: Build and Push Docker Image to Docker Hub
+
+# Define quando a action deve rodar
+on:
+  push:
+    branches: [ "master" ] # Roda toda vez que houver um push na branch 'master'
+
+# Define os jobs (tarefas) a serem executados
+jobs:
+  build-and-push:
+    # Usa a versão mais recente do Ubuntu para rodar o job
+    runs-on: ubuntu-latest
+
+    # Passos que o job executará
+    steps:
+      # 1. Faz o checkout do seu código do repositório
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Faz o login no Docker Hub usando os segredos que criamos
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # 3. Constrói a imagem Docker e envia para o Docker Hub
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .         # Usa o Dockerfile na raiz do repositório
+          push: true         # Garante que a imagem será enviada (push)
+          tags: gustavoedev/teams_service:latest
