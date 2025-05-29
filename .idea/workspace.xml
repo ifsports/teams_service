@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: create CRUD endpoints for teams (create, read, update, delete)">
-      <change afterPath="$PROJECT_DIR$/teams/routers/team_members_router.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: create endpoints for team_members (create, read, delete)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/schemas/team_members.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/team_members.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +17,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Python Script" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -30,12 +29,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "GustavoeDev"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;GustavoeDev&quot;
   }
-}]]></component>
+}</component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -46,11 +45,11 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1748544080" />
+                    <option name="lastUsedInstant" value="1748546096" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1748544075" />
+                    <option name="lastUsedInstant" value="1748546083" />
                   </RecentBranch>
                 </list>
               </option>
@@ -61,22 +60,22 @@
       </RecentBranches>
     </option>
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ifsports/teams_service.git",
-    "accountId": "542ce48d-bdde-4cd0-8eed-78eefcacea19"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ifsports/teams_service.git&quot;,
+    &quot;accountId&quot;: &quot;542ce48d-bdde-4cd0-8eed-78eefcacea19&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "ifsports",
-    "repository": "teams_service"
+    &quot;owner&quot;: &quot;ifsports&quot;,
+    &quot;repository&quot;: &quot;teams_service&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -93,7 +92,7 @@
     "Python.teams_router.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "#7 on develop",
     "last_opened_file_path": "/home/gustavo/Documentos/INTEGRADOR/teams_service"
   }
 }]]></component>
@@ -122,6 +121,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.main" />
       </list>
