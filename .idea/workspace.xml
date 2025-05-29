@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="initial commit">
-      <change afterPath="$PROJECT_DIR$/shared/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/database.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/dependencies.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: configure PostgreSQL connection with SQLAlchemy">
       <change afterPath="$PROJECT_DIR$/teams/__init__.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/teams/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/teams/models/team_member.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/teams/models/teams.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/teams/schemas/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/teams/schemas/team_members.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/teams/schemas/teams.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,14 +100,24 @@
       <option name="project" value="LOCAL" />
       <updated>1748479808065</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat: configure PostgreSQL connection with SQLAlchemy">
+      <option name="closed" value="true" />
+      <created>1748480218116</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1748480218116</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="UnknownFeatures">
     <option featureType="com.intellij.fileTypeFactory" implementationName=".env" />
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.ini" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="feat: configure PostgreSQL connection with SQLAlchemy" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: configure PostgreSQL connection with SQLAlchemy" />
   </component>
 </project>
