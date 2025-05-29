@@ -5,11 +5,13 @@ from fastapi import FastAPI
 from shared.exceptions import NotFound, Conflict
 from shared.exceptions_handler import not_found_exception_handler, conflict_exception_handler
 
-from teams.routers import teams_router
+from teams.routers import teams_router, team_members_router
 
 app = FastAPI()
 
 app.include_router(teams_router.router)
+
+app.include_router(team_members_router.router)
 
 app.add_exception_handler(NotFound, not_found_exception_handler)
 app.add_exception_handler(Conflict, conflict_exception_handler)

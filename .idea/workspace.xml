@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: updates team and team_member schemas and models">
-      <change afterPath="$PROJECT_DIR$/teams/routers/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: create CRUD endpoints for teams (create, read, update, delete)">
+      <change afterPath="$PROJECT_DIR$/teams/routers/team_members_router.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/schemas/team_members.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/team_members.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,11 +46,11 @@
                 <list>
                   <RecentBranch>
                     <option name="branchName" value="develop" />
-                    <option name="lastUsedInstant" value="1748479827" />
+                    <option name="lastUsedInstant" value="1748544080" />
                   </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1748479826" />
+                    <option name="lastUsedInstant" value="1748544075" />
                   </RecentBranch>
                 </list>
               </option>
@@ -65,6 +65,16 @@
   "selectedUrlAndAccountId": {
     "url": "https://github.com/ifsports/teams_service.git",
     "accountId": "542ce48d-bdde-4cd0-8eed-78eefcacea19"
+  },
+  "recentNewPullRequestHead": {
+    "server": {
+      "useHttp": false,
+      "host": "github.com",
+      "port": null,
+      "suffix": null
+    },
+    "owner": "ifsports",
+    "repository": "teams_service"
   }
 }]]></component>
   <component name="ProjectColorInfo">{
@@ -112,6 +122,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.main" />
       </list>
     </recent_temporary>
@@ -179,7 +190,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748542958262</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat: create CRUD endpoints for teams (create, read, update, delete)">
+      <option name="closed" value="true" />
+      <created>1748543842912</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748543842912</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -193,6 +212,7 @@
     <MESSAGE value="feat: create campus table with migration" />
     <MESSAGE value="feat: creates custom HTTPException (Notfound and Conflict)" />
     <MESSAGE value="feat: updates team and team_member schemas and models" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: updates team and team_member schemas and models" />
+    <MESSAGE value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
   </component>
 </project>
