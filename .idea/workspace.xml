@@ -4,15 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: configure PostgreSQL connection with SQLAlchemy">
-      <change afterPath="$PROJECT_DIR$/teams/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/teams/models/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/teams/models/team_member.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/teams/models/teams.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/teams/schemas/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/teams/schemas/team_members.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/teams/schemas/teams.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: create team and team_members models with migration">
+      <change afterPath="$PROJECT_DIR$/shared/exceptions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/exceptions_handler.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/teams/models/campus.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/teams/routers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/alembic/env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/models/teams.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/models/teams.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/schemas/team_members.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/team_members.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/schemas/teams.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/teams.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,10 +63,10 @@
       </RecentBranches>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2xkQ5M3jJQWT4vRkvroRlPntYVE" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -72,11 +76,42 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.main.executor": "Run",
+    "Python.teams_router.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "develop"
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "/home/gustavo/Documentos/INTEGRADOR/teams_service"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="teams_service" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -108,7 +143,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748480218116</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="feat: create team and team_members models with migration">
+      <option name="closed" value="true" />
+      <created>1748488503047</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1748488503047</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -118,6 +161,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
     <MESSAGE value="feat: configure PostgreSQL connection with SQLAlchemy" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: configure PostgreSQL connection with SQLAlchemy" />
+    <MESSAGE value="feat: create team and team_members models with migration" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: create team and team_members models with migration" />
   </component>
 </project>

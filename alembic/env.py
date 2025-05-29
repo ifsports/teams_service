@@ -23,6 +23,9 @@ from teams.models.teams import Team
 # noinspection PyUnresolvedReferences
 from teams.models.team_member import TeamMember
 
+# noinspection PyUnresolvedReferences
+from teams.models.campus import Campus
+
 from shared.database import Base
 target_metadata = Base.metadata
 
