@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: create campus table with migration">
-      <change afterPath="$PROJECT_DIR$/shared/exceptions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/shared/exceptions_handler.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: updates team and team_member schemas and models">
       <change afterPath="$PROJECT_DIR$/teams/routers/__init__.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/models/teams.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/models/teams.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/schemas/team_members.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/team_members.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/schemas/teams.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/teams.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +30,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "GustavoeDev"
+  }
+}]]></component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -59,6 +61,12 @@
       </RecentBranches>
     </option>
   </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ifsports/teams_service.git",
+    "accountId": "542ce48d-bdde-4cd0-8eed-78eefcacea19"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -155,7 +163,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748542793138</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: creates custom HTTPException (Notfound and Conflict)">
+      <option name="closed" value="true" />
+      <created>1748542894157</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1748542894157</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: updates team and team_member schemas and models">
+      <option name="closed" value="true" />
+      <created>1748542958262</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1748542958262</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -167,6 +191,8 @@
     <MESSAGE value="feat: configure PostgreSQL connection with SQLAlchemy" />
     <MESSAGE value="feat: create team and team_members models with migration" />
     <MESSAGE value="feat: create campus table with migration" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: create campus table with migration" />
+    <MESSAGE value="feat: creates custom HTTPException (Notfound and Conflict)" />
+    <MESSAGE value="feat: updates team and team_member schemas and models" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: updates team and team_member schemas and models" />
   </component>
 </project>
