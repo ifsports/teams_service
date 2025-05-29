@@ -10,6 +10,8 @@ from sqlalchemy.orm import relationship
 
 from shared.database import Base
 
+from teams.models.team_member import TeamMember
+
 
 class TeamStatusEnum(str, Enum):
     pendent = 'pendent'
@@ -32,4 +34,7 @@ class Team(Base):
         String(20),
         default=TeamStatusEnum.pendent,
     )
-    members = relationship("TeamMember", back_populates="team")
+    campus_code: str = Column(String(100), ForeignKey('campus.code', name="fk_teams_campus_code"), nullable=False)
+
+    campus = relationship("Campus", back_populates="teams")
+    members = relationship("TeamMember", back_populates="team", cascade="all, delete-orphan")
