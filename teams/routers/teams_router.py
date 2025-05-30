@@ -71,7 +71,7 @@ async def create_team_in_campus(campus_code: str,
     db.refresh(new_team)
 
     team_creation_message_data = {
-        "team_id": new_team.id,
+        "team_id": str(new_team.id),
         "request_type": "approve_team",
         "campus_code": new_team.campus_code,
         "status": "pendent",

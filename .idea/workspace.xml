@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: add entrypoint to automate migrations">
-      <change afterPath="$PROJECT_DIR$/messaging/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/messaging/publishers.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: add aio-pika and publisher for creation of &quot;approve_team&quot; request">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/schemas/teams.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/teams.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -221,7 +216,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748622737744</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="feat: add aio-pika and publisher for creation of &quot;approve_team&quot; request">
+      <option name="closed" value="true" />
+      <created>1748629028356</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1748629028356</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -238,6 +241,7 @@
     <MESSAGE value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
     <MESSAGE value="feat: add Dockerfile for containerization" />
     <MESSAGE value="feat: add entrypoint to automate migrations" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add entrypoint to automate migrations" />
+    <MESSAGE value="feat: add aio-pika and publisher for creation of &quot;approve_team&quot; request" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add aio-pika and publisher for creation of &quot;approve_team&quot; request" />
   </component>
 </project>
