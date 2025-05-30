@@ -5,12 +5,16 @@ from typing import List
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
+from datetime import datetime, timezone
+
+from messaging.publishers import publish_team_creation_requested
+
 from shared.dependencies import get_db
 from shared.exceptions import NotFound, Conflict
 from teams.models import TeamMember
 from teams.models.campus import Campus
 from teams.models.teams import Team
-from teams.schemas.teams import TeamResponse, TeamCreateRequest, TeamUpdateRequest
+from teams.schemas.teams import TeamResponse, TeamCreateRequest, TeamUpdateRequest, TeamCreationAcceptedResponse
 
 router = APIRouter(
     prefix="/api/v1/campus/{campus_code}/teams",
@@ -32,7 +36,7 @@ async def get_teams_by_campus(campus_code: str,
     return teams
 
 
-@router.post("/", response_model=TeamResponse, status_code=201)
+@router.post("/", response_model=TeamCreationAcceptedResponse, status_code=202)
 async def create_team_in_campus(campus_code: str,
                                 team_request: TeamCreateRequest,
                                 db: Session = Depends(get_db)):
@@ -66,7 +70,20 @@ async def create_team_in_campus(campus_code: str,
     db.commit()
     db.refresh(new_team)
 
-    return new_team
+    team_creation_message_data = {
+        "team_id": new_team.id,
+        "request_type": "approve_team",
+        "campus_code": new_team.campus_code,
+        "status": "pendent",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
+
+    await publish_team_creation_requested(team_creation_message_data)
+
+    return {
+        "message": "Solicitação de criação de equipe enviada para aprovação!",
+        "team_id": new_team.id
+    }
 
 
 @router.get("/{team_id}", response_model=TeamResponse, status_code=200)

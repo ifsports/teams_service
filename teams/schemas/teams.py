@@ -24,6 +24,11 @@ class TeamResponse(BaseModel):
     }
 
 
+class TeamCreationAcceptedResponse(BaseModel):
+    message: str
+    team_id: uuid.UUID
+
+
 class TeamCreateRequest(BaseModel):
     name: str
     abbreviation: str
