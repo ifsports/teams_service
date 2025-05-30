@@ -11,7 +11,11 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 COPY . .
 
+RUN chmod +x /app/entrypoint.sh
+
 EXPOSE 8003
+
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8003"]
 
