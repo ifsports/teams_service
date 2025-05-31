@@ -131,7 +131,7 @@ async def update_team_by_id(campus_code: str,
     return
 
 
-@router.delete("/{team_id}", status_code=204)
+@router.delete("/{team_id}", status_code=202)
 async def delete_team_by_id(campus_code: str,
                             team_id: str,
                             db: Session = Depends(get_db)):
@@ -146,9 +146,6 @@ async def delete_team_by_id(campus_code: str,
     if not team:
         raise NotFound("Equipe")
 
-    db.delete(team)
-    db.commit()
-
     team_deletion_message_data = {
         "team_id": str(team.id),
         "request_type": "delete_team",
@@ -159,4 +156,7 @@ async def delete_team_by_id(campus_code: str,
 
     await publish_team_deletion_requested(team_deletion_message_data)
 
-    return
+    return {
+        "message": "Solicitação de remoção de equipe enviada para aprovação!",
+        "team_id": team.id
+    }
