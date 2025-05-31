@@ -153,7 +153,7 @@ async def delete_team_by_id(campus_code: str,
         "request_type": "delete_team",
         "reason": team_request.reason,
         "campus_code": team.campus_code,
-        "status": "active",
+        "status": "pendent",
         "created_at": datetime.now(timezone.utc).isoformat()
     }
 

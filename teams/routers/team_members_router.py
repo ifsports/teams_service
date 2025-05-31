@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends
 
@@ -6,6 +7,7 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
+from messaging.publishers import publish_remove_member_requested
 from shared.dependencies import get_db
 
 from shared.exceptions import NotFound, Conflict
@@ -16,7 +18,7 @@ from teams.models.team_member import TeamMember
 from teams.models.campus import Campus
 
 
-from teams.schemas.team_members import TeamMemberResponse, TeamMemberRequest
+from teams.schemas.team_members import TeamMemberResponse, TeamMemberCreateRequest, TeamMemberDeleteRequest
 
 router = APIRouter(
     prefix="/api/v1/campus/{campus_code}/teams/{team_id}/members",
@@ -47,7 +49,7 @@ async def get_team_members_by_team_id(campus_code: str,
 @router.post("/", response_model=TeamMemberResponse, status_code=201)
 async def add_team_member_to_team(campus_code: str,
                                   team_id: uuid.UUID,
-                                  team_member_request: TeamMemberRequest,
+                                  team_member_request: TeamMemberCreateRequest,
                                   db: Session = Depends(get_db)):
     campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
 
@@ -76,10 +78,10 @@ async def add_team_member_to_team(campus_code: str,
     return member
 
 
-@router.delete("/{team_member_id}", status_code=204)
+@router.delete("/{team_member_id}", status_code=202)
 async def remove_team_member_from_team(campus_code: str,
                                        team_id: uuid.UUID,
-                                       team_member_request: TeamMemberRequest,
+                                       team_member_request: TeamMemberDeleteRequest,
                                        db: Session = Depends(get_db)):
 
     campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
@@ -97,7 +99,20 @@ async def remove_team_member_from_team(campus_code: str,
     if not member:
         raise NotFound("Membro")
 
-    db.delete(member)
-    db.commit()
+    member_deletion_message_data = {
+        "team_id": str(team.id),
+        "user_id": str(member.user_id),
+        "request_type": "remove_team_member",
+        "reason": team_member_request.reason,
+        "campus_code": team.campus_code,
+        "status": "pendent",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
 
-    return
+    await publish_remove_member_requested(member_deletion_message_data)
+
+    return {
+        "message": "Solicitação de remoção de membro enviada para aprovação!",
+        "team_id": team.id,
+        "member_id": member.id
+    }

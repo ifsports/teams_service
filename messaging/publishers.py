@@ -108,6 +108,42 @@ async def publish_team_deletion_requested(team_data: dict):
             await connection.close()
 
 
+async def publish_remove_member_requested(team_data: dict):
+    """
+        Publica uma mensagem indicando que a remoção de um membro foi solicitada
+        e requer aprovação.
+    """
+    connection = None
+    try:
+        connection = await aio_pika.connect_robust(RABBITMQ_URL)
+
+        async with connection.channel() as channel:
+            exchange = await channel.declare_exchange(
+                TEAMS_COMMANDS_EXCHANGE,
+                aio_pika.ExchangeType.DIRECT,
+                durable=True
+            )
+
+            message_body = json.dumps(team_data).encode()
+
+            routing_key = "member.removal.requested"
+
+            message = aio_pika.Message(
+                body=message_body,
+                content_type="application/json",
+                delivery_mode=aio_pika.DeliveryMode.PERSISTENT
+            )
+
+            await exchange.publish(message, routing_key=routing_key)
+            print(f" [teams_service] Sent '{routing_key}':'{team_data}'")
+
+    except aio_pika.exceptions.AMQPConnectionError as e:
+        print(f"Erro de conexão com RabbitMQ: {e}")
+    except Exception as e:
+        print(f"Erro ao publicar mensagem: {e}")
+    finally:
+        if connection and not connection.is_closed:
+            await connection.close()
 
 if __name__ == "__main__":
     pass

@@ -7,5 +7,10 @@ class TeamMemberResponse(BaseModel):
     user_id: uuid.UUID
 
 
-class TeamMemberRequest(BaseModel):
+class TeamMemberDeleteRequest(BaseModel):
+    user_id: uuid.UUID
+    reason: str
+
+
+class TeamMemberCreateRequest(BaseModel):
     user_id: uuid.UUID
