@@ -29,6 +29,10 @@ class TeamCreationAcceptedResponse(BaseModel):
     team_id: uuid.UUID
 
 
+class TeamDeleteRequest(BaseModel):
+    reason: str
+
+
 class TeamCreateRequest(BaseModel):
     name: str
     abbreviation: str

@@ -14,7 +14,8 @@ from shared.exceptions import NotFound, Conflict
 from teams.models import TeamMember
 from teams.models.campus import Campus
 from teams.models.teams import Team
-from teams.schemas.teams import TeamResponse, TeamCreateRequest, TeamUpdateRequest, TeamCreationAcceptedResponse
+from teams.schemas.teams import TeamResponse, TeamCreateRequest, TeamUpdateRequest, TeamCreationAcceptedResponse, \
+    TeamDeleteRequest
 
 router = APIRouter(
     prefix="/api/v1/campus/{campus_code}/teams",
@@ -134,6 +135,7 @@ async def update_team_by_id(campus_code: str,
 @router.delete("/{team_id}", status_code=202)
 async def delete_team_by_id(campus_code: str,
                             team_id: str,
+                            team_request: TeamDeleteRequest,
                             db: Session = Depends(get_db)):
 
     campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
@@ -149,6 +151,7 @@ async def delete_team_by_id(campus_code: str,
     team_deletion_message_data = {
         "team_id": str(team.id),
         "request_type": "delete_team",
+        "reason": team_request.reason,
         "campus_code": team.campus_code,
         "status": "active",
         "created_at": datetime.now(timezone.utc).isoformat()
