@@ -75,7 +75,7 @@ async def create_team_in_campus(campus_code: str,
         "request_type": "approve_team",
         "campus_code": new_team.campus_code,
         "status": "pendent",
-        "created_at": datetime.now(timezone.utc)
+        "created_at": datetime.now(timezone.utc).isoformat()
     }
 
     await publish_team_creation_requested(team_creation_message_data)
@@ -151,7 +151,7 @@ async def delete_team_by_id(campus_code: str,
         "request_type": "delete_team",
         "campus_code": team.campus_code,
         "status": "active",
-        "created_at": datetime.now(timezone.utc)
+        "created_at": datetime.now(timezone.utc).isoformat()
     }
 
     await publish_team_deletion_requested(team_deletion_message_data)
