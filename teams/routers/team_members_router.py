@@ -7,7 +7,7 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
-from messaging.publishers import publish_remove_member_requested
+from messaging.publishers import publish_remove_member_requested, publish_add_member_requested
 from shared.dependencies import get_db
 
 from shared.exceptions import NotFound, Conflict
@@ -46,7 +46,7 @@ async def get_team_members_by_team_id(campus_code: str,
     return members
 
 
-@router.post("/", response_model=TeamMemberResponse, status_code=201)
+@router.post("/", status_code=202)
 async def add_team_member_to_team(campus_code: str,
                                   team_id: uuid.UUID,
                                   team_member_request: TeamMemberCreateRequest,
@@ -71,11 +71,22 @@ async def add_team_member_to_team(campus_code: str,
 
     member = TeamMember(user_id=team_member_request.user_id, team_id=team_id)
 
-    db.add(member)
-    db.commit()
-    db.refresh(member)
+    add_member_message_data = {
+        "team_id": str(team.id),
+        "user_id": str(member.user_id),
+        "request_type": "add_team_member",
+        "campus_code": team.campus_code,
+        "status": "pendent",
+        "created_at": datetime.now(timezone.utc).isoformat()
+    }
 
-    return member
+    await publish_add_member_requested(add_member_message_data)
+
+    return {
+        "message": "Solicitação de adição de membro enviada para aprovação!",
+        "team_id": team.id,
+        "member_id": member.user_id
+    }
 
 
 @router.delete("/{team_member_id}", status_code=202)
