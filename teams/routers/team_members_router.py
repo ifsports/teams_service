@@ -114,5 +114,5 @@ async def remove_team_member_from_team(campus_code: str,
     return {
         "message": "Solicitação de remoção de membro enviada para aprovação!",
         "team_id": team.id,
-        "member_id": member.id
+        "member_id": member.user_id
     }
