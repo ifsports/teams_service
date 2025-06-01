@@ -1,13 +1,14 @@
 import uuid
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 
 from typing import List
 
 from sqlalchemy.orm import Session
 
 from messaging.publishers import publish_remove_member_requested, publish_add_member_requested
+from services.validate_members_http import validate_members_with_auth_service
 from shared.dependencies import get_db
 
 from shared.exceptions import NotFound, Conflict
@@ -70,6 +71,17 @@ async def add_team_member_to_team(campus_code: str,
         raise Conflict("Membro já está na equipe.")
 
     member = TeamMember(user_id=team_member_request.user_id, team_id=team_id)
+
+    user_id_to_validate = team_member_request.user_id
+
+    auth_service_url = "http://authservice:8000/api/v1/auth/users/"
+    is_valid, validation_message = await validate_members_with_auth_service(
+        member_ids=[user_id_to_validate],
+        auth_service_url=auth_service_url
+    )
+
+    if not is_valid:
+        raise HTTPException(status_code=400, detail=validation_message)
 
     add_member_message_data = {
         "team_id": str(team.id),

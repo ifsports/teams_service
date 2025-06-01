@@ -6,8 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="fix: adjust auth_service URL for inter-container communication">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/validate_members_http.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/validate_members_http.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/routers/team_members_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/team_members_router.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
