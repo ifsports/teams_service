@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="fix: adjust auth_service URL for inter-container communication">
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: refactor the way user_id is received by rabbitmq">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/routers/team_members_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/team_members_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/crud.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/crud.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -313,7 +313,23 @@
       <option name="project" value="LOCAL" />
       <updated>1748803989187</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="feat: implements endpoint to check if user exists before adding him to team">
+      <option name="closed" value="true" />
+      <created>1748808667730</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1748808667730</updated>
+    </task>
+    <task id="LOCAL-00023" summary="refactor: refactor the way user_id is received by rabbitmq">
+      <option name="closed" value="true" />
+      <created>1748809307004</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1748809307005</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -342,6 +358,8 @@
     <MESSAGE value="fix: add validation to check if user_id is not null" />
     <MESSAGE value="refactor: change user_id type in TeamMember to String" />
     <MESSAGE value="fix: adjust auth_service URL for inter-container communication" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: adjust auth_service URL for inter-container communication" />
+    <MESSAGE value="feat: implements endpoint to check if user exists before adding him to team" />
+    <MESSAGE value="refactor: refactor the way user_id is received by rabbitmq" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: refactor the way user_id is received by rabbitmq" />
   </component>
 </project>
