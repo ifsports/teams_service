@@ -36,7 +36,7 @@ class TeamDeleteRequest(BaseModel):
 class TeamCreateRequest(BaseModel):
     name: str
     abbreviation: str
-    members: List[uuid.UUID]
+    members: List[str]
 
     @field_validator('abbreviation')
     def validate_abbreviation(cls, v):
