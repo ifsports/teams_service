@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 
-from typing import List
+from typing import List, Optional
 
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
@@ -13,7 +13,7 @@ from shared.dependencies import get_db
 from shared.exceptions import NotFound, Conflict
 from teams.models import TeamMember
 from teams.models.campus import Campus
-from teams.models.teams import Team
+from teams.models.teams import Team, TeamStatusEnum
 from teams.schemas.teams import TeamResponse, TeamCreateRequest, TeamUpdateRequest, TeamCreationAcceptedResponse, \
     TeamDeleteRequest
 
@@ -25,6 +25,7 @@ router = APIRouter(
 
 @router.get("/", response_model=List[TeamResponse])
 async def get_teams_by_campus(campus_code: str,
+                              status: Optional[TeamStatusEnum] = Query(None, description="Filtrar equipes por status"),
                               db: Session = Depends(get_db)):
 
     campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
@@ -32,9 +33,12 @@ async def get_teams_by_campus(campus_code: str,
     if not campus:
         raise NotFound("Campus")
 
-    teams = db.query(Team).filter(Team.campus_code == campus_code).all() # type: ignore
+    query = db.query(Team).filter(Team.campus_code == campus_code)
 
-    return teams
+    if status:
+        query = query.filter(Team.status == status.value)
+
+    return query.all()
 
 
 @router.post("/", response_model=TeamCreationAcceptedResponse, status_code=202)
