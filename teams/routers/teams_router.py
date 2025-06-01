@@ -53,7 +53,7 @@ async def create_team_in_campus(campus_code: str,
         raise NotFound("Campus")
 
     if team_request.members:
-        auth_service_url = "http://localhost:8000/api/v1/auth/users/"
+        auth_service_url = "http://authservice:8000/api/v1/auth/users/"
 
         are_members_valid, validation_message = await validate_members_with_auth_service(
             member_ids=team_request.members,

@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: change user_id type in TeamMember to String">
-      <change afterPath="$PROJECT_DIR$/services/validate_members_http.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="fix: adjust auth_service URL for inter-container communication">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/validate_members_http.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/validate_members_http.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +94,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHELLCHECK.PATH": "I do mind",
-    "git-widget-placeholder": "#13 on develop",
+    "git-widget-placeholder": "master",
     "last_opened_file_path": "/home/gustavo/Documentos/INTEGRADOR/requests_service"
   }
 }]]></component>
@@ -307,7 +306,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748803051392</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="fix: adjust auth_service URL for inter-container communication">
+      <option name="closed" value="true" />
+      <created>1748803989187</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1748803989187</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -335,6 +342,7 @@
     <MESSAGE value="feat: implements consumer of team updates, database logic and lifecycle" />
     <MESSAGE value="fix: add validation to check if user_id is not null" />
     <MESSAGE value="refactor: change user_id type in TeamMember to String" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: change user_id type in TeamMember to String" />
+    <MESSAGE value="fix: adjust auth_service URL for inter-container communication" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: adjust auth_service URL for inter-container communication" />
   </component>
 </project>
