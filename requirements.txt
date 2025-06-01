@@ -7,3 +7,4 @@ aio-pika==9.5.5
 # TOOLS
 alembic==1.16.1
 python-dotenv==1.1.0
+httpx==0.28.1

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, HTTPException
 
 from typing import List, Optional
 
@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timezone
 
 from messaging.publishers import publish_team_creation_requested, publish_team_deletion_requested
+from services.validate_members_http import validate_members_with_auth_service
 
 from shared.dependencies import get_db
 from shared.exceptions import NotFound, Conflict
@@ -50,6 +51,17 @@ async def create_team_in_campus(campus_code: str,
 
     if not campus:
         raise NotFound("Campus")
+
+    if team_request.members:
+        auth_service_url = "http://localhost:8000/api/v1/auth/users/"
+
+        are_members_valid, validation_message = await validate_members_with_auth_service(
+            member_ids=team_request.members,
+            auth_service_url=auth_service_url
+        )
+
+        if not are_members_valid:
+            raise HTTPException(status_code=400, detail=validation_message)
 
     team_exists = db.query(Team).filter(
         or_(
