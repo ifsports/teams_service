@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: add command to add member in rabbitmq">
-      <change afterPath="$PROJECT_DIR$/messaging/consumers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/services/crud.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: implements consumer of team updates, database logic and lifecycle">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -284,7 +280,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748735181595</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="feat: implements consumer of team updates, database logic and lifecycle">
+      <option name="closed" value="true" />
+      <created>1748744156193</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1748744156193</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -309,6 +313,7 @@
     <MESSAGE value="feat: adds request flow for member removal via RabbitMQ" />
     <MESSAGE value="refactor: refactor response of member id to be removed" />
     <MESSAGE value="feat: add command to add member in rabbitmq" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: add command to add member in rabbitmq" />
+    <MESSAGE value="feat: implements consumer of team updates, database logic and lifecycle" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: implements consumer of team updates, database logic and lifecycle" />
   </component>
 </project>

@@ -33,7 +33,7 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
             raise ValueError(f"team_id '{team_id_str}' não é um UUID válido")
 
         user_id_for_db = None
-        if user_id_str:
+        if user_id_str is not None:
             try:
                 user_id_for_db = uuid.UUID(user_id_str)
             except ValueError:
