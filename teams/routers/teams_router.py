@@ -5,10 +5,13 @@ from typing import List, Optional
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
+import uuid
+
 from datetime import datetime, timezone
 
 from messaging.publishers import publish_team_creation_requested, publish_team_deletion_requested
 from services.validate_members_http import validate_members_with_auth_service
+from services.verify_team_exists import verify_team_exists_with_competitions_service
 
 from shared.dependencies import get_db
 from shared.exceptions import NotFound, Conflict
@@ -47,21 +50,24 @@ async def create_team_in_campus(campus_code: str,
                                 team_request: TeamCreateRequest,
                                 db: Session = Depends(get_db)):
 
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
-
+    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()
     if not campus:
         raise NotFound("Campus")
 
-    if team_request.members:
-        auth_service_url = "http://authservice:8000/api/v1/auth/users/"
+    if not team_request.members:
+        raise HTTPException(status_code=400, detail="A equipe deve ter pelo menos um membro")
 
-        are_members_valid, validation_message = await validate_members_with_auth_service(
-            member_ids=team_request.members,
-            auth_service_url=auth_service_url
-        )
+    if not team_request.competition_id:
+        raise HTTPException(status_code=400, detail="ID da competição é obrigatório")
 
-        if not are_members_valid:
-            raise HTTPException(status_code=400, detail=validation_message)
+    auth_service_url = "http://authservice:8000/api/v1/auth/users/"
+    are_members_valid, validation_message = await validate_members_with_auth_service(
+        member_ids=team_request.members,
+        auth_service_url=auth_service_url
+    )
+
+    if not are_members_valid:
+        raise HTTPException(status_code=400, detail=validation_message)
 
     team_exists = db.query(Team).filter(
         or_(
@@ -74,18 +80,46 @@ async def create_team_in_campus(campus_code: str,
     if team_exists:
         raise Conflict("Nome ou abreviação já existem em outra equipe do campus")
 
+    temp_team_id = str(uuid.uuid4())
+
+    team_can_subscribe, teams_data = await verify_team_exists_with_competitions_service(
+        team_id=temp_team_id,
+        auth_service_url=f"http://competitions_service:8007/api/v1/competitions/{team_request.competition_id}/teams/"
+    )
+
+    if not team_can_subscribe:
+        error_message = teams_data.get('message', 'Erro desconhecido ao verificar competição')
+        raise HTTPException(status_code=400, detail=f"Não foi possível inscrever a equipe: {error_message}")
+
+    existing_team_uuids = []
+    if teams_data.get("data") and teams_data["data"].get("team_uuids"):
+        existing_team_uuids = teams_data["data"]["team_uuids"]
+
+    if existing_team_uuids:
+        conflicting_members = db.query(TeamMember).filter(
+            TeamMember.team_id.in_(existing_team_uuids),
+            TeamMember.user_id.in_(team_request.members)
+        ).all()
+
+        if conflicting_members:
+            conflicting_user_ids = [member.user_id for member in conflicting_members]
+            raise Conflict(f"Os seguintes membros já estão em outras equipes desta competição: {', '.join(conflicting_user_ids)}")
+
     new_team = Team(
+        id=temp_team_id,
         name=team_request.name,
         abbreviation=team_request.abbreviation,
         campus_code=campus_code,
         members=[TeamMember(user_id=user_id) for user_id in team_request.members]
     )
 
-    new_team.campus_code = campus_code
-
-    db.add(new_team)
-    db.commit()
-    db.refresh(new_team)
+    try:
+        db.add(new_team)
+        db.commit()
+        db.refresh(new_team)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Erro ao criar equipe no banco de dados: {str(e)}")
 
     team_creation_message_data = {
         "team_id": str(new_team.id),
@@ -95,7 +129,11 @@ async def create_team_in_campus(campus_code: str,
         "created_at": datetime.now(timezone.utc).isoformat()
     }
 
-    await publish_team_creation_requested(team_creation_message_data)
+    try:
+        await publish_team_creation_requested(team_creation_message_data)
+    except Exception as e:
+        # Log o erro mas não falhe a requisição já que a equipe foi criada
+        print(f"Erro ao publicar mensagem de criação da equipe: {str(e)}")
 
     return {
         "message": "Solicitação de criação de equipe enviada para aprovação!",

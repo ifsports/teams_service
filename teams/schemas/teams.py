@@ -36,6 +36,7 @@ class TeamDeleteRequest(BaseModel):
 class TeamCreateRequest(BaseModel):
     name: str
     abbreviation: str
+    competition_id: uuid.UUID
     members: List[str]
 
     @field_validator('abbreviation')
