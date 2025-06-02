@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: refactor the way user_id is received by rabbitmq">
-      <change afterPath="$PROJECT_DIR$/services/verify_team_exists.py" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: makes a call to competitions_service checking if there are members on that team">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/schemas/teams.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/teams.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -331,7 +329,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748809307005</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="feat: makes a call to competitions_service checking if there are members on that team">
+      <option name="closed" value="true" />
+      <created>1748907040251</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1748907040251</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -362,6 +368,7 @@
     <MESSAGE value="fix: adjust auth_service URL for inter-container communication" />
     <MESSAGE value="feat: implements endpoint to check if user exists before adding him to team" />
     <MESSAGE value="refactor: refactor the way user_id is received by rabbitmq" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: refactor the way user_id is received by rabbitmq" />
+    <MESSAGE value="feat: makes a call to competitions_service checking if there are members on that team" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: makes a call to competitions_service checking if there are members on that team" />
   </component>
 </project>
