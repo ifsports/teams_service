@@ -105,6 +105,16 @@ async def create_team_in_campus(campus_code: str,
             conflicting_user_ids = [member.user_id for member in conflicting_members]
             raise Conflict(f"Os seguintes membros já estão em outras equipes desta competição: {', '.join(conflicting_user_ids)}")
 
+    api_data = teams_data.get('data')
+    if not api_data:
+        raise HTTPException(status_code=500, detail="Erro: 'data' não encontrado na resposta da API.")
+    min_members = api_data.get('min_members_per_team')
+    if min_members is None:
+        raise HTTPException(status_code=500, detail="Erro: 'min_members_per_team' não encontrado.")
+
+    if team_request.members and len(team_request.members) < min_members:
+        raise HTTPException(status_code=400, detail=f"A equipe precisa ter pelo menos {min_members} membros")
+
     new_team = Team(
         id=temp_team_id,
         name=team_request.name,

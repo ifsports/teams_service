@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: makes a call to competitions_service checking if there are members on that team">
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="fix: change the api call route to competitions_service">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
     </list>
@@ -337,7 +337,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748907040251</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="fix: change the api call route to competitions_service">
+      <option name="closed" value="true" />
+      <created>1748907811457</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1748907811457</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -369,6 +377,7 @@
     <MESSAGE value="feat: implements endpoint to check if user exists before adding him to team" />
     <MESSAGE value="refactor: refactor the way user_id is received by rabbitmq" />
     <MESSAGE value="feat: makes a call to competitions_service checking if there are members on that team" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: makes a call to competitions_service checking if there are members on that team" />
+    <MESSAGE value="fix: change the api call route to competitions_service" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: change the api call route to competitions_service" />
   </component>
 </project>
