@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="fix: change the api call route to competitions_service">
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: adds validation for minimum number of team members">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
     </list>
@@ -345,7 +345,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748907811457</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="feat: adds validation for minimum number of team members">
+      <option name="closed" value="true" />
+      <created>1748908632819</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1748908632819</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -353,7 +361,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.ini" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="initial commit" />
     <MESSAGE value="feat: configure PostgreSQL connection with SQLAlchemy" />
     <MESSAGE value="feat: create team and team_members models with migration" />
     <MESSAGE value="feat: create campus table with migration" />
@@ -378,6 +385,7 @@
     <MESSAGE value="refactor: refactor the way user_id is received by rabbitmq" />
     <MESSAGE value="feat: makes a call to competitions_service checking if there are members on that team" />
     <MESSAGE value="fix: change the api call route to competitions_service" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: change the api call route to competitions_service" />
+    <MESSAGE value="feat: adds validation for minimum number of team members" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: adds validation for minimum number of team members" />
   </component>
 </project>

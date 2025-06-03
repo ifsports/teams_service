@@ -136,13 +136,13 @@ async def create_team_in_campus(campus_code: str,
         "request_type": "approve_team",
         "campus_code": new_team.campus_code,
         "status": "pendent",
+        "competition_id": team_request.competition_id,
         "created_at": datetime.now(timezone.utc).isoformat()
     }
 
     try:
         await publish_team_creation_requested(team_creation_message_data)
     except Exception as e:
-        # Log o erro mas não falhe a requisição já que a equipe foi criada
         print(f"Erro ao publicar mensagem de criação da equipe: {str(e)}")
 
     return {
