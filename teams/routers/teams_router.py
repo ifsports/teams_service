@@ -136,7 +136,7 @@ async def create_team_in_campus(campus_code: str,
         "request_type": "approve_team",
         "campus_code": new_team.campus_code,
         "status": "pendent",
-        "competition_id": team_request.competition_id,
+        "competition_id": str(team_request.competition_id),
         "created_at": datetime.now(timezone.utc).isoformat()
     }
 
