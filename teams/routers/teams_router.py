@@ -60,7 +60,7 @@ async def create_team_in_campus(campus_code: str,
     if not team_request.competition_id:
         raise HTTPException(status_code=400, detail="ID da competição é obrigatório")
 
-    auth_service_url = "http://authservice:8000/api/v1/auth/users/"
+    auth_service_url = "http://authapi:8000/api/v1/auth/users/"
     are_members_valid, validation_message = await validate_members_with_auth_service(
         member_ids=team_request.members,
         auth_service_url=auth_service_url
@@ -84,7 +84,7 @@ async def create_team_in_campus(campus_code: str,
 
     team_can_subscribe, teams_data = await verify_team_exists_with_competitions_service(
         team_id=temp_team_id,
-        auth_service_url=f"http://competitionsservice:8007/api/v1/competitions/{team_request.competition_id}/teams/"
+        auth_service_url=f"http://competitionsapi:8007/api/v1/competitions/{team_request.competition_id}/teams/"
     )
 
     if not team_can_subscribe:

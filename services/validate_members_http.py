@@ -2,7 +2,7 @@ import httpx
 
 async def validate_members_with_auth_service(
         member_ids: list[str],
-        auth_service_url: str = "http://authservice:8000/api/v1/auth/users/"  # URL do endpoint de validação
+        auth_service_url: str = "http://authapi:8000/api/v1/auth/users/"  # URL do endpoint de validação
 ) -> tuple[bool, str]:
     """
     Chama o serviço de autenticação para validar uma lista de IDs de membros.
