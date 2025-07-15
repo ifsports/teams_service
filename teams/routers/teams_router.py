@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, Query, HTTPException, status, Response
 
 from typing import List, Optional
 
@@ -9,9 +9,11 @@ import uuid
 
 from datetime import datetime, timezone
 
+from auth import get_current_user
 from messaging.publishers import publish_team_creation_requested, publish_team_deletion_requested
 from services.validate_members_http import validate_members_with_auth_service
 from services.verify_team_exists import verify_team_exists_with_competitions_service
+from shared.auth_utils import has_role
 
 from shared.dependencies import get_db
 from shared.exceptions import NotFound, Conflict
@@ -21,36 +23,59 @@ from teams.models.teams import Team, TeamStatusEnum
 from teams.schemas.teams import TeamResponse, TeamCreateRequest, TeamUpdateRequest, TeamCreationAcceptedResponse, \
     TeamDeleteRequest
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 router = APIRouter(
-    prefix="/api/v1/campus/{campus_code}/teams",
+    prefix="/api/v1/teams",
     tags=["Teams"]
 )
 
 
 @router.get("/", response_model=List[TeamResponse])
-async def get_teams_by_campus(campus_code: str,
-                              status: Optional[TeamStatusEnum] = Query(None, description="Filtrar equipes por status"),
-                              db: Session = Depends(get_db)):
+async def get_teams_by_campus(status: Optional[TeamStatusEnum] = Query(None, description="Filtrar equipes por status"),
+                              db: Session = Depends(get_db),
+                              current_user: dict = Depends(get_current_user)):
+
+    user_id = current_user["user_matricula"]
+    campus_code = current_user["campus"]
+    groups = current_user["groups"]
 
     campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
 
     if not campus:
         raise NotFound("Campus")
 
-    query = db.query(Team).filter(Team.campus_code == campus_code)
+    if has_role(groups, "Jogador"):
+        query = (
+            db.query(Team)
+            .join(Team.members)
+            .filter(
+                Team.campus_code == campus_code,
+                TeamMember.user_id == user_id
+            )
+        )
+
+    else:
+        query = db.query(Team).filter(Team.campus_code == campus_code)
 
     if status:
         query = query.filter(Team.status == status.value)
 
     return query.all()
 
+@router.post("/")
+async def create_team_in_campus(team_request: TeamCreateRequest,
+                                response: Response,
+                                db: Session = Depends(get_db),
+                                current_user: dict = Depends(get_current_user)):
 
-@router.post("/", response_model=TeamCreationAcceptedResponse, status_code=202)
-async def create_team_in_campus(campus_code: str,
-                                team_request: TeamCreateRequest,
-                                db: Session = Depends(get_db)):
+    campus_code = current_user["campus"]
+    groups = current_user["groups"]
 
     campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()
+
     if not campus:
         raise NotFound("Campus")
 
@@ -115,65 +140,85 @@ async def create_team_in_campus(campus_code: str,
     if team_request.members and len(team_request.members) < min_members:
         raise HTTPException(status_code=400, detail=f"A equipe precisa ter pelo menos {min_members} membros")
 
-    new_team = Team(
-        id=temp_team_id,
-        name=team_request.name,
-        abbreviation=team_request.abbreviation,
-        campus_code=campus_code,
-        members=[TeamMember(user_id=user_id) for user_id in team_request.members]
-    )
+    if has_role(groups, "Jogador"):
+        new_team = Team(
+            id=temp_team_id,
+            name=team_request.name,
+            abbreviation=team_request.abbreviation,
+            campus_code=campus_code,
+            members=[TeamMember(user_id=user_id) for user_id in team_request.members]
+        )
 
-    try:
-        db.add(new_team)
-        db.commit()
-        db.refresh(new_team)
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Erro ao criar equipe no banco de dados: {str(e)}")
+        try:
+            db.add(new_team)
+            db.commit()
+            db.refresh(new_team)
+        except Exception:
+            db.rollback()
+            raise HTTPException(
+                status_code=500,
+                detail="Erro ao criar equipe no banco de dados"
+            )
 
-    team_creation_message_data = {
-        "team_id": str(new_team.id),
-        "request_type": "approve_team",
-        "campus_code": new_team.campus_code,
-        "status": "pendent",
-        "competition_id": str(team_request.competition_id),
-        "created_at": datetime.now(timezone.utc).isoformat()
-    }
+        team_creation_message_data = {
+            "team_id": str(new_team.id),
+            "request_type": "approve_team",
+            "campus_code": new_team.campus_code,
+            "status": "pendent",
+            "competition_id": str(team_request.competition_id),
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
 
-    try:
-        await publish_team_creation_requested(team_creation_message_data)
-    except Exception as e:
-        print(f"Erro ao publicar mensagem de criação da equipe: {str(e)}")
+        try:
+            await publish_team_creation_requested(team_creation_message_data)
+        except Exception as e:
+            logger.error("Erro ao publicar mensagem...", exc_info=True)
 
-    return {
-        "message": "Solicitação de criação de equipe enviada para aprovação!",
-        "team_id": new_team.id
-    }
+        response.status_code = status.HTTP_202_ACCEPTED
+        return {
+            "message": "Solicitação de criação de equipe enviada para aprovação!",
+            "team_id": new_team.id
+        }
+
+    elif has_role(groups, "Organizador"):
+        new_team = Team(
+            id=temp_team_id,
+            name=team_request.name,
+            abbreviation=team_request.abbreviation,
+            campus_code=campus_code,
+            status=TeamStatusEnum.active,
+            members=[TeamMember(user_id=user_id) for user_id in team_request.members]
+        )
+
+        try:
+            db.add(new_team)
+            db.commit()
+            db.refresh(new_team)
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=500,
+                detail="Erro ao criar equipe no banco de dados"
+            )
+
+        response.status_code = status.HTTP_201_CREATED
+        return new_team
+
+    else:
+        raise HTTPException(
+            status_code=403,
+            detail="Você não tem permissão para criar essa equipe."
+        )
 
 
-@router.get("/{team_id}", response_model=TeamResponse, status_code=200)
-async def get_team_by_id(campus_code: str,
-                         team_id: str,
-                         db: Session = Depends(get_db)):
+@router.get("/{team_id}")
+async def get_team_by_id(team_id: str,
+                         response: Response,
+                         db: Session = Depends(get_db),
+                         current_user: dict = Depends(get_current_user)):
 
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
-
-    if not campus:
-        raise NotFound("Campus")
-
-    team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first() # type: ignore
-
-    if not team:
-        raise NotFound("Equipe")
-
-    return team
-
-
-@router.put("/{team_id}", status_code=204)
-async def update_team_by_id(campus_code: str,
-                            team_id: str,
-                            team_request: TeamUpdateRequest,
-                            db: Session = Depends(get_db)):
+    campus_code = current_user["campus"]
+    groups = current_user["groups"]
 
     campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
 
@@ -185,22 +230,25 @@ async def update_team_by_id(campus_code: str,
     if not team:
         raise NotFound("Equipe")
 
-    if team_request.name:
-        team.name = team_request.name
+    if has_role(groups, "Jogador", "Organizador"):
+        response.status_code = status.HTTP_200_OK
+        return team
 
-    if team_request.abbreviation:
-        team.abbreviation = team_request.abbreviation
+    else:
+        response.status_code = status.HTTP_403_FORBIDDEN
+        return {
+            "message": "Você não tem permissão para realizar essa requisição"
+        }
 
-    db.commit()
-
-    return
-
-
-@router.delete("/{team_id}", status_code=202)
-async def delete_team_by_id(campus_code: str,
-                            team_id: str,
+@router.delete("/{team_id}")
+async def delete_team_by_id(team_id: str,
                             team_request: TeamDeleteRequest,
-                            db: Session = Depends(get_db)):
+                            response: Response,
+                            db: Session = Depends(get_db),
+                            current_user: dict = Depends(get_current_user)):
+
+    campus_code = current_user["campus"]
+    groups = current_user["groups"]
 
     campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
 
@@ -212,18 +260,45 @@ async def delete_team_by_id(campus_code: str,
     if not team:
         raise NotFound("Equipe")
 
-    team_deletion_message_data = {
-        "team_id": str(team.id),
-        "request_type": "delete_team",
-        "reason": team_request.reason,
-        "campus_code": team.campus_code,
-        "status": "pendent",
-        "created_at": datetime.now(timezone.utc).isoformat()
-    }
+    if has_role(groups, "Jogador"):
+        if not team_request:
+            raise HTTPException(
+                status_code=422,
+                detail="O corpo da requisição (reason) é obrigatório para jogadores"
+            )
 
-    await publish_team_deletion_requested(team_deletion_message_data)
+        team_deletion_message_data = {
+            "team_id": str(team.id),
+            "request_type": "delete_team",
+            "reason": team_request.reason,
+            "campus_code": team.campus_code,
+            "status": "pendent",
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
 
-    return {
-        "message": "Solicitação de remoção de equipe enviada para aprovação!",
-        "team_id": team.id
-    }
+        await publish_team_deletion_requested(team_deletion_message_data)
+
+        response.status_code = status.HTTP_202_ACCEPTED
+        return {
+            "message": "Solicitação de remoção de equipe enviada para aprovação!",
+            "team_id": team.id
+        }
+
+    elif has_role(groups, "Organizador"):
+        try:
+            db.delete(team)
+            db.commit()
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=500,
+                detail="Erro ao excluir equipe"
+            )
+
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+    else:
+        raise HTTPException(
+            status_code=403,
+            detail="Você não tem permissão para excluir essa equipe."
+        )

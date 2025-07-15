@@ -30,7 +30,7 @@ class TeamCreationAcceptedResponse(BaseModel):
 
 
 class TeamDeleteRequest(BaseModel):
-    reason: str
+    reason: Optional[str]
 
 
 class TeamCreateRequest(BaseModel):
