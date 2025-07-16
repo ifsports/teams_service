@@ -8,7 +8,6 @@ class TeamMemberResponse(BaseModel):
 
 
 class TeamMemberDeleteRequest(BaseModel):
-    user_id: str
     reason: str
 
 

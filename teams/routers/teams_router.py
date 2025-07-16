@@ -235,10 +235,10 @@ async def get_team_by_id(team_id: str,
         return team
 
     else:
-        response.status_code = status.HTTP_403_FORBIDDEN
-        return {
-            "message": "Você não tem permissão para realizar essa requisição"
-        }
+        raise HTTPException(
+            status_code=403,
+            detail="Você não tem permissão para visualizar os dados dessa equipe."
+        )
 
 @router.delete("/{team_id}")
 async def delete_team_by_id(team_id: str,
