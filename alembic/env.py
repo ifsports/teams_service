@@ -29,8 +29,6 @@ if config.config_file_name is not None:
 from teams.models.teams import Team
 # noinspection PyUnresolvedReferences
 from teams.models.team_member import TeamMember
-# noinspection PyUnresolvedReferences
-from teams.models.campus import Campus
 
 from shared.database import Base  # Certifique-se que 'Base' é a sua Base declarativa do SQLAlchemy
 

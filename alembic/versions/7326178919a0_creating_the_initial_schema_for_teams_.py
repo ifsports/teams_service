@@ -1,8 +1,8 @@
-"""create team and team_members table
+"""creating the initial schema for teams and members
 
-Revision ID: 0b46556e634c
+Revision ID: 7326178919a0
 Revises: 
-Create Date: 2025-05-28 22:37:06.983512
+Create Date: 2025-07-18 15:57:46.857754
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '0b46556e634c'
+revision: str = '7326178919a0'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -27,11 +27,12 @@ def upgrade() -> None:
     sa.Column('abbreviation', sa.String(length=3), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), nullable=False),
     sa.Column('status', sa.String(length=20), nullable=True),
+    sa.Column('campus_code', sa.String(length=100), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('team_members',
     sa.Column('team_id', sa.UUID(), nullable=False),
-    sa.Column('user_id', sa.UUID(), nullable=False),
+    sa.Column('user_id', sa.String(), nullable=False),
     sa.ForeignKeyConstraint(['team_id'], ['teams.id'], ),
     sa.PrimaryKeyConstraint('team_id', 'user_id')
     )

@@ -18,7 +18,6 @@ from shared.auth_utils import has_role
 from shared.dependencies import get_db
 from shared.exceptions import NotFound, Conflict
 from teams.models import TeamMember
-from teams.models.campus import Campus
 from teams.models.teams import Team, TeamStatusEnum
 from teams.schemas.teams import TeamResponse, TeamCreateRequest, TeamUpdateRequest, TeamCreationAcceptedResponse, \
     TeamDeleteRequest
@@ -41,11 +40,6 @@ async def get_teams_by_campus(status: Optional[TeamStatusEnum] = Query(None, des
     user_id = current_user["user_matricula"]
     campus_code = current_user["campus"]
     groups = current_user["groups"]
-
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
-
-    if not campus:
-        raise NotFound("Campus")
 
     if has_role(groups, "Jogador"):
         query = (
@@ -73,11 +67,6 @@ async def create_team_in_campus(team_request: TeamCreateRequest,
 
     campus_code = current_user["campus"]
     groups = current_user["groups"]
-
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()
-
-    if not campus:
-        raise NotFound("Campus")
 
     if not team_request.members:
         raise HTTPException(status_code=400, detail="A equipe deve ter pelo menos um membro")
@@ -220,11 +209,6 @@ async def get_team_by_id(team_id: str,
     campus_code = current_user["campus"]
     groups = current_user["groups"]
 
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
-
-    if not campus:
-        raise NotFound("Campus")
-
     team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
 
     if not team:
@@ -249,11 +233,6 @@ async def delete_team_by_id(team_id: str,
 
     campus_code = current_user["campus"]
     groups = current_user["groups"]
-
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
-
-    if not campus:
-        raise NotFound("Campus")
 
     team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
 

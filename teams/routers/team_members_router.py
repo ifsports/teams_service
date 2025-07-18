@@ -16,8 +16,6 @@ from teams.models.teams import Team
 
 from teams.models.team_member import TeamMember
 
-from teams.models.campus import Campus
-
 
 from teams.schemas.team_members import TeamMemberCreateRequest, TeamMemberDeleteRequest
 
@@ -35,11 +33,6 @@ async def get_team_members_by_team_id(team_id: str,
 
     campus_code = current_user["campus"]
     groups = current_user["groups"]
-
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
-
-    if not campus:
-        raise NotFound("Campus")
 
     team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
 
@@ -69,11 +62,6 @@ async def add_team_member_to_team(team_id: uuid.UUID,
     user_id = current_user["user_matricula"]
     campus_code = current_user["campus"]
     groups = current_user["groups"]
-
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
-
-    if not campus:
-        raise NotFound("Campus")
 
     team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
 
@@ -167,11 +155,6 @@ async def remove_team_member_from_team(team_id: uuid.UUID,
     user_id = current_user["user_matricula"]
     campus_code = current_user["campus"]
     groups = current_user["groups"]
-
-    campus: Campus = db.query(Campus).filter(Campus.code == campus_code).first()  # type: ignore
-
-    if not campus:
-        raise NotFound("Campus")
 
     team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
 

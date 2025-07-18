@@ -4,11 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador">
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/alembic/env.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/versions/0b46556e634c_create_team_and_team_members_table.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/versions/12a81c2ca1b4_change_the_type_of_user_id_to_str.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/versions/99dfcbe50a27_adiciona_cascade_delete_em_campus_e_.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/versions/bc9d0e62229b_create_campus_table.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/alembic/versions/ea957b65f37a_nomeando_fk_campus_code.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/models/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/models/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/models/campus.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/models/teams.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/models/teams.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teams/routers/team_members_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/team_members_router.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/schemas/team_members.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/schemas/team_members.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,27 +95,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Run",
-    "Python.team_members_router.executor": "Coverage",
-    "Python.teams_router.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "I do mind",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/gustavo/Documentos/pdm-monitor",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.team_members_router.executor&quot;: &quot;Coverage&quot;,
+    &quot;Python.teams_router.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;I do mind&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/gustavo/Documentos/integrador/ifsports&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Python.team_members_router">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="teams_service" />
@@ -182,7 +190,9 @@
       <updated>1748479407280</updated>
       <workItem from="1752602574237" duration="4133000" />
       <workItem from="1752609816348" duration="7143000" />
-      <workItem from="1752627886486" duration="675000" />
+      <workItem from="1752627886486" duration="918000" />
+      <workItem from="1752629391746" duration="29000" />
+      <workItem from="1752853029154" duration="3176000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -408,7 +418,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752618392951</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py">
+      <option name="closed" value="true" />
+      <created>1752628717446</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1752628717446</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -419,7 +437,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.ini" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: create campus table with migration" />
     <MESSAGE value="feat: creates custom HTTPException (Notfound and Conflict)" />
     <MESSAGE value="feat: updates team and team_member schemas and models" />
     <MESSAGE value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
@@ -444,6 +461,7 @@
     <MESSAGE value="feat: adds validation for minimum number of team members" />
     <MESSAGE value="feat: update competition_id in team_creation_message_data" />
     <MESSAGE value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador" />
+    <MESSAGE value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py" />
   </component>
 </project>

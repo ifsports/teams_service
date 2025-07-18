@@ -34,7 +34,6 @@ class Team(Base):
         String(20),
         default=TeamStatusEnum.pendent,
     )
-    campus_code: str = Column(String(100), ForeignKey('campus.code', name="fk_teams_campus_code"), nullable=False)
+    campus_code: str = Column(String(100), nullable=False)
 
-    campus = relationship("Campus", back_populates="teams")
     members = relationship("TeamMember", back_populates="team", cascade="all, delete-orphan")
