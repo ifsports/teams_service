@@ -9,7 +9,7 @@ import uuid
 
 from datetime import datetime, timezone
 
-from auth import get_current_user
+from auth import get_current_user, get_current_user_optional
 from messaging.publishers import publish_team_creation_requested, publish_team_deletion_requested
 from services.validate_members_http import validate_members_with_auth_service
 from services.verify_team_exists import verify_team_exists_with_competitions_service
@@ -34,25 +34,31 @@ router = APIRouter(
 
 @router.get("/", response_model=List[TeamResponse])
 async def get_teams_by_campus(status: Optional[TeamStatusEnum] = Query(None, description="Filtrar equipes por status"),
+                              campus: Optional[str] = Query(None, description="Filtrar equipes por campus"),
                               db: Session = Depends(get_db),
-                              current_user: dict = Depends(get_current_user)):
+                              current_user: Optional[dict] = Depends(get_current_user_optional)):
 
-    user_id = current_user["user_matricula"]
-    campus_code = current_user["campus"]
-    groups = current_user["groups"]
+    if current_user:
+        campus_code = current_user["campus"]
+        user_id = current_user["user_matricula"]
+        groups = current_user["groups"]
 
-    if has_role(groups, "Jogador"):
-        query = (
-            db.query(Team)
-            .join(Team.members)
-            .filter(
-                Team.campus_code == campus_code,
-                TeamMember.user_id == user_id
+        if has_role(groups, "Jogador"):
+            query = (
+                db.query(Team)
+                .join(Team.members)
+                .filter(
+                    Team.campus_code == campus_code,
+                    TeamMember.user_id == user_id
+                )
             )
-        )
+        else:
+            query = db.query(Team).filter(Team.campus_code == campus_code)
 
     else:
-        query = db.query(Team).filter(Team.campus_code == campus_code)
+        if not campus:
+            raise HTTPException(status_code=400, detail="Campus deve ser informado se não estiver autenticado")
+        query = db.query(Team).filter(Team.campus_code == campus)
 
     if status:
         query = query.filter(Team.status == status.value)

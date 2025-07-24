@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py">
-      <change beforePath="$PROJECT_DIR$/.idea/teams_service.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/teams_service.iml" afterDir="false" />
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: pass the token to make a request when creating a team in a competition">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/verify_team_exists.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/verify_team_exists.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,22 +61,22 @@
       </RecentBranches>
     </option>
   </component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "git@github.com:ifsports/teams_service.git",
-    "accountId": "fee58dc6-523e-4f8c-9b3a-4cf95177d32d"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:ifsports/teams_service.git&quot;,
+    &quot;accountId&quot;: &quot;fee58dc6-523e-4f8c-9b3a-4cf95177d32d&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "ifsports",
-    "repository": "teams_service"
+    &quot;owner&quot;: &quot;ifsports&quot;,
+    &quot;repository&quot;: &quot;teams_service&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -88,27 +86,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.main.executor": "Run",
-    "Python.team_members_router.executor": "Coverage",
-    "Python.teams_router.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHELLCHECK.PATH": "I do mind",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/home/gustavo/Documentos/integrador/ifsports/teams_service",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.team_members_router.executor&quot;: &quot;Coverage&quot;,
+    &quot;Python.teams_router.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHELLCHECK.PATH&quot;: &quot;I do mind&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/gustavo/Documentos/integrador/ifsports/teams_service&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Python.team_members_router">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="teams_service" />
@@ -186,7 +184,8 @@
       <workItem from="1752627886486" duration="918000" />
       <workItem from="1752629391746" duration="29000" />
       <workItem from="1752853029154" duration="3176000" />
-      <workItem from="1753367149926" duration="194000" />
+      <workItem from="1753367149926" duration="675000" />
+      <workItem from="1753370094278" duration="664000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -420,7 +419,15 @@
       <option name="project" value="LOCAL" />
       <updated>1752628717446</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="feat: pass the token to make a request when creating a team in a competition">
+      <option name="closed" value="true" />
+      <created>1753367810105</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1753367810105</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -431,7 +438,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.ini" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: creates custom HTTPException (Notfound and Conflict)" />
     <MESSAGE value="feat: updates team and team_member schemas and models" />
     <MESSAGE value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
     <MESSAGE value="feat: add Dockerfile for containerization" />
@@ -456,6 +462,7 @@
     <MESSAGE value="feat: update competition_id in team_creation_message_data" />
     <MESSAGE value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador" />
     <MESSAGE value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py" />
+    <MESSAGE value="feat: pass the token to make a request when creating a team in a competition" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: pass the token to make a request when creating a team in a competition" />
   </component>
 </project>
