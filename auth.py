@@ -29,6 +29,7 @@ def get_current_user(
             "user_matricula": user_matricula,
             "campus": campus,
             "groups": groups,
+            "access_token": token
         }
 
     except JWTError:

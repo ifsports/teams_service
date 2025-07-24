@@ -3,7 +3,8 @@ from typing import Tuple, Dict, Any
 
 async def verify_team_exists_with_competitions_service(
         team_id: str,
-        auth_service_url: str
+        auth_service_url: str,
+        access_token: str
 ) -> Tuple[bool, Dict[str, Any]]:
     """
     Chama o serviço de competições para verificar se uma equipe pode ser inscrita
@@ -16,7 +17,7 @@ async def verify_team_exists_with_competitions_service(
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            response = await client.post(auth_service_url, json=payload)
+            response = await client.post(auth_service_url, json=payload, headers={"Authorization": f"Bearer {access_token}"})
             response.raise_for_status()
 
             response_data = response.json()

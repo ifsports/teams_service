@@ -98,7 +98,8 @@ async def create_team_in_campus(team_request: TeamCreateRequest,
 
     team_can_subscribe, teams_data = await verify_team_exists_with_competitions_service(
         team_id=temp_team_id,
-        auth_service_url=f"http://competitionsapi:8007/api/v1/competitions/{team_request.competition_id}/teams/"
+        auth_service_url=f"http://competitionsapi:8007/api/v1/competitions/{team_request.competition_id}/teams/",
+        access_token=current_user["access_token"]
     )
 
     if not team_can_subscribe:
