@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime, timezone
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status, Request
 
 from sqlalchemy.orm import Session
 
@@ -18,6 +18,8 @@ from teams.models.team_member import TeamMember
 
 
 from teams.schemas.team_members import TeamMemberCreateRequest, TeamMemberDeleteRequest
+
+from messaging.audit_publisher import run_async_audit, generate_log_payload, model_to_dict
 
 router = APIRouter(
     prefix="/api/v1/teams/{team_id}/members",
@@ -56,6 +58,7 @@ async def get_team_members_by_team_id(team_id: str,
 async def add_team_member_to_team(team_id: uuid.UUID,
                                   team_member_request: TeamMemberCreateRequest,
                                   response: Response,
+                                  request_object: Request,
                                   db: Session = Depends(get_db),
                                   current_user: dict = Depends(get_current_user)):
 
@@ -121,6 +124,9 @@ async def add_team_member_to_team(team_id: uuid.UUID,
             )
 
     elif has_role(groups, "Organizador"):
+        
+        old_data = model_to_dict(team)
+        
         try:
             team.members.append(member)
             db.add(team)
@@ -129,6 +135,24 @@ async def add_team_member_to_team(team_id: uuid.UUID,
         except Exception as e:
             db.rollback()
             raise HTTPException(status_code=500, detail=f"Erro ao adicionar membro diretamente: {str(e)}")
+
+        new_data = model_to_dict(team)
+
+        # Gera o payload de log
+        log_payload = generate_log_payload(
+            event_type="team.members_updated",
+            service_origin="teams_service",
+            entity_type="team_member",
+            entity_id=member.user_id,
+            operation_type="UPDATE",
+            campus_code=team.campus_code,
+            user_registration=user_id,
+            request_object=request_object,
+            old_data=old_data,
+            new_data=new_data,
+        )
+
+        run_async_audit(log_payload)
 
         response.status_code = status.HTTP_200_OK
         return {
@@ -149,6 +173,7 @@ async def remove_team_member_from_team(team_id: uuid.UUID,
                                        team_member_request: TeamMemberDeleteRequest,
                                        team_member_id: str,
                                        response: Response,
+                                       request_object: Request,
                                        db: Session = Depends(get_db),
                                        current_user: dict = Depends(get_current_user)):
 
@@ -206,6 +231,8 @@ async def remove_team_member_from_team(team_id: uuid.UUID,
             )
 
     elif has_role(groups, "Organizador"):
+        old_data = model_to_dict(team)
+        
         try:
             team.members.remove(member)
             db.add(team)
@@ -217,6 +244,24 @@ async def remove_team_member_from_team(team_id: uuid.UUID,
                 status_code=500,
                 detail="Erro ao remover membro diretamente"
             )
+        
+        new_data = model_to_dict(team)
+
+        # Gera o payload de log
+        log_payload = generate_log_payload(
+            event_type="team.members_updated",
+            service_origin="teams_service",
+            entity_type="team_member",
+            entity_id=member.user_id,
+            operation_type="UPDATE",
+            campus_code=team.campus_code,
+            user_registration=user_id,
+            request_object=request_object,
+            new_data=new_data,
+            old_data=old_data,
+        )
+
+        run_async_audit(log_payload)
 
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query, HTTPException, status, Response
+from fastapi import APIRouter, Depends, Query, HTTPException, status, Response, Request
 
 from typing import List, Optional
 
@@ -23,6 +23,8 @@ from teams.schemas.teams import TeamResponse, TeamCreateRequest, TeamUpdateReque
     TeamDeleteRequest
 
 import logging
+
+from messaging.audit_publisher import run_async_audit, generate_log_payload, model_to_dict
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +70,7 @@ async def get_teams_by_campus(status: Optional[TeamStatusEnum] = Query(None, des
 @router.post("/")
 async def create_team_in_campus(team_request: TeamCreateRequest,
                                 response: Response,
+                                request_object: Request,
                                 db: Session = Depends(get_db),
                                 current_user: dict = Depends(get_current_user)):
 
@@ -197,6 +200,21 @@ async def create_team_in_campus(team_request: TeamCreateRequest,
                 detail="Erro ao criar equipe no banco de dados"
             )
 
+        # Log de auditoria
+        log_payload = generate_log_payload(
+            campus_code=campus_code,
+            user_registration=current_user.get("user_matricula"),
+            service_origin="teams_service",
+            event_type="team.created",
+            operation_type="CREATE",
+            entity_type="team",
+            entity_id=new_team.id,
+            request_object=request_object,
+            new_data=model_to_dict(new_team),
+        )
+
+        run_async_audit(log_payload)
+
         response.status_code = status.HTTP_201_CREATED
         return new_team
 
@@ -205,7 +223,6 @@ async def create_team_in_campus(team_request: TeamCreateRequest,
             status_code=403,
             detail="Você não tem permissão para criar essa equipe."
         )
-
 
 @router.get("/{team_id}")
 async def get_team_by_id(team_id: str,
@@ -235,6 +252,7 @@ async def get_team_by_id(team_id: str,
 async def delete_team_by_id(team_id: str,
                             team_request: TeamDeleteRequest,
                             response: Response,
+                            request_object: Request,
                             db: Session = Depends(get_db),
                             current_user: dict = Depends(get_current_user)):
 
@@ -271,6 +289,8 @@ async def delete_team_by_id(team_id: str,
         }
 
     elif has_role(groups, "Organizador"):
+        old_data = model_to_dict(team)
+        
         try:
             db.delete(team)
             db.commit()
@@ -280,6 +300,21 @@ async def delete_team_by_id(team_id: str,
                 status_code=500,
                 detail="Erro ao excluir equipe"
             )
+        
+        # Log de auditoria
+        log_payload = generate_log_payload(
+            campus_code=campus_code,
+            user_registration=current_user.get("user_matricula"),
+            service_origin="teams_service",
+            event_type="team.deleted",
+            operation_type="DELETE",
+            entity_type="team",
+            entity_id=team.id,
+            request_object=request_object,
+            old_data=old_data,
+        )
+
+        run_async_audit(log_payload)
 
         return Response(status_code=status.HTTP_204_NO_CONTENT)
 
