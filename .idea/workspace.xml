@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: pass the token to make a request when creating a team in a competition">
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: support for optional authentication and campus filtering in the query">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/auth.py" beforeDir="false" afterPath="$PROJECT_DIR$/auth.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/crud.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/crud.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +96,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHELLCHECK.PATH&quot;: &quot;I do mind&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/gustavo/Documentos/integrador/ifsports/teams_service&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/gustavo/Documentos/integrador/ifsports/match-comments-service&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -185,7 +184,9 @@
       <workItem from="1752629391746" duration="29000" />
       <workItem from="1752853029154" duration="3176000" />
       <workItem from="1753367149926" duration="675000" />
-      <workItem from="1753370094278" duration="664000" />
+      <workItem from="1753370094278" duration="676000" />
+      <workItem from="1753379551635" duration="58000" />
+      <workItem from="1753720381797" duration="7896000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -427,7 +428,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753367810105</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="feat: support for optional authentication and campus filtering in the query">
+      <option name="closed" value="true" />
+      <created>1753370765349</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1753370765349</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -438,7 +447,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.ini" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: updates team and team_member schemas and models" />
     <MESSAGE value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
     <MESSAGE value="feat: add Dockerfile for containerization" />
     <MESSAGE value="feat: add entrypoint to automate migrations" />
@@ -463,6 +471,7 @@
     <MESSAGE value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador" />
     <MESSAGE value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py" />
     <MESSAGE value="feat: pass the token to make a request when creating a team in a competition" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: pass the token to make a request when creating a team in a competition" />
+    <MESSAGE value="feat: support for optional authentication and campus filtering in the query" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: support for optional authentication and campus filtering in the query" />
   </component>
 </project>

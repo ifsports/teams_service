@@ -51,7 +51,7 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
         if request_type_str == "approve_team":
             if team_instance.status != TeamStatusEnum.pendent:
                 raise ValueError(
-                    f"Equipe {team_instance.id} (status: {team_instance.status.value}) não está pendente, não pode ser aprovada/rejeitada.")
+                    f"Equipe {team_instance.id} (status: {team_instance.status}) não está pendente, não pode ser aprovada/rejeitada.")
 
             if status_str == "approved":
                 team_instance.status = TeamStatusEnum.active
@@ -74,12 +74,12 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
 
             db.refresh(team_instance)
 
-            return {"team_id": str(team_instance.id), "status": team_instance.status.value, "message": message}
+            return {"team_id": str(team_instance.id), "status": team_instance.status, "message": message}
 
         elif request_type_str == "delete_team":
             if team_instance.status not in [TeamStatusEnum.pendent, TeamStatusEnum.active]:
                 raise ValueError(
-                    f"Equipe {team_instance.id} (status: {team_instance.status.value}) não pode ser fechada por esta operação.")
+                    f"Equipe {team_instance.id} (status: {team_instance.status}) não pode ser fechada por esta operação.")
 
             if status_str == "approved":
                 if team_instance.status == TeamStatusEnum.closed:
@@ -102,14 +102,14 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
 
             return {
                 "team_id": str(team_instance.id),
-                "status": team_instance.status.value,
+                "status": team_instance.status,
                 "message": message
             }
 
         elif request_type_str == "add_team_member":
             if team_instance.status != TeamStatusEnum.active:
                 raise ValueError(
-                    f"Não é possível adicionar membro à equipe {team_instance.id} (status: '{team_instance.status.value}'). Deve estar ativa.")
+                    f"Não é possível adicionar membro à equipe {team_instance.id} (status: '{team_instance.status}'). Deve estar ativa.")
 
             existing_member = db.query(TeamMember).filter(
                 TeamMember.user_id == user_id_str,
@@ -141,13 +141,13 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
                 "team_id": str(team_instance.id),
                 "user_id": user_id_str,
                 "message": message,
-                "team_status": team_instance.status.value
+                "team_status": team_instance.status
             }
 
         elif request_type_str == "remove_team_member":
             if team_instance.status != TeamStatusEnum.active:
                 raise ValueError(
-                    f"Não é possível remover membro da equipe {team_instance.id} (status: '{team_instance.status.value}'). Deve estar ativa.")
+                    f"Não é possível remover membro da equipe {team_instance.id} (status: '{team_instance.status}'). Deve estar ativa.")
 
             member_to_remove = db.query(TeamMember).filter(
                 TeamMember.team_id == team_instance.id,
@@ -177,7 +177,7 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
                 "team_id": str(team_instance.id),
                 "user_id": user_id_str,
                 "message": message,
-                "team_status": team_instance.status.value
+                "team_status": team_instance.status
             }
 
         else:
