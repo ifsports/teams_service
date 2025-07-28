@@ -139,7 +139,7 @@ async def create_team_in_campus(team_request: TeamCreateRequest,
     if team_request.members and len(team_request.members) < min_members:
         raise HTTPException(status_code=400, detail=f"A equipe precisa ter pelo menos {min_members} membros")
 
-    if has_role(groups, "Jogador"):
+    if has_role(groups, "Jogador", "Organizador"):
         new_team = Team(
             id=temp_team_id,
             name=team_request.name,
@@ -173,33 +173,6 @@ async def create_team_in_campus(team_request: TeamCreateRequest,
         except Exception as e:
             logger.error("Erro ao publicar mensagem...", exc_info=True)
 
-        response.status_code = status.HTTP_202_ACCEPTED
-        return {
-            "message": "Solicitação de criação de equipe enviada para aprovação!",
-            "team_id": new_team.id
-        }
-
-    elif has_role(groups, "Organizador"):
-        new_team = Team(
-            id=temp_team_id,
-            name=team_request.name,
-            abbreviation=team_request.abbreviation,
-            campus_code=campus_code,
-            status=TeamStatusEnum.active,
-            members=[TeamMember(user_id=user_id) for user_id in team_request.members]
-        )
-
-        try:
-            db.add(new_team)
-            db.commit()
-            db.refresh(new_team)
-        except Exception as e:
-            db.rollback()
-            raise HTTPException(
-                status_code=500,
-                detail="Erro ao criar equipe no banco de dados"
-            )
-
         # Log de auditoria
         log_payload = generate_log_payload(
             campus_code=campus_code,
@@ -215,8 +188,11 @@ async def create_team_in_campus(team_request: TeamCreateRequest,
 
         run_async_audit(log_payload)
 
-        response.status_code = status.HTTP_201_CREATED
-        return new_team
+        response.status_code = status.HTTP_202_ACCEPTED
+        return {
+            "message": "Solicitação de criação de equipe enviada para aprovação!",
+            "team_id": new_team.id
+        }
 
     else:
         raise HTTPException(
@@ -264,7 +240,7 @@ async def delete_team_by_id(team_id: str,
     if not team:
         raise NotFound("Equipe")
 
-    if has_role(groups, "Jogador"):
+    if has_role(groups, "Jogador", "Organizador"):
         if not team_request:
             raise HTTPException(
                 status_code=422,
@@ -282,25 +258,8 @@ async def delete_team_by_id(team_id: str,
 
         await publish_team_deletion_requested(team_deletion_message_data)
 
-        response.status_code = status.HTTP_202_ACCEPTED
-        return {
-            "message": "Solicitação de remoção de equipe enviada para aprovação!",
-            "team_id": team.id
-        }
-
-    elif has_role(groups, "Organizador"):
         old_data = model_to_dict(team)
-        
-        try:
-            db.delete(team)
-            db.commit()
-        except Exception as e:
-            db.rollback()
-            raise HTTPException(
-                status_code=500,
-                detail="Erro ao excluir equipe"
-            )
-        
+
         # Log de auditoria
         log_payload = generate_log_payload(
             campus_code=campus_code,
@@ -316,7 +275,11 @@ async def delete_team_by_id(team_id: str,
 
         run_async_audit(log_payload)
 
-        return Response(status_code=status.HTTP_204_NO_CONTENT)
+        response.status_code = status.HTTP_202_ACCEPTED
+        return {
+            "message": "Solicitação de remoção de equipe enviada para aprovação!",
+            "team_id": team.id
+        }
 
     else:
         raise HTTPException(

@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: changes the way it gets the team status in crud.py">
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: refactor the generate_log_payload function to convert UUID values to str">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/messaging/audit_publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/messaging/audit_publisher.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/routers/team_members_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/team_members_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/teams/routers/teams_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/teams/routers/teams_router.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +97,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHELLCHECK.PATH&quot;: &quot;I do mind&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/gustavo/Documentos/integrador/ifsports/match-comments-service&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/gustavo/Documentos/integrador/ifsports/requests_service&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -186,7 +187,8 @@
       <workItem from="1753367149926" duration="675000" />
       <workItem from="1753370094278" duration="676000" />
       <workItem from="1753379551635" duration="58000" />
-      <workItem from="1753720381797" duration="9203000" />
+      <workItem from="1753720381797" duration="9766000" />
+      <workItem from="1753731238405" duration="940000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -444,7 +446,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753729523517</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="refactor: refactor the generate_log_payload function to convert UUID values to str">
+      <option name="closed" value="true" />
+      <created>1753730821171</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1753730821171</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -455,7 +465,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.ini" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: add Dockerfile for containerization" />
     <MESSAGE value="feat: add entrypoint to automate migrations" />
     <MESSAGE value="feat: add aio-pika and publisher for creation of &quot;approve_team&quot; request" />
     <MESSAGE value="feat: Add publisher for delete_team request" />
@@ -480,6 +489,7 @@
     <MESSAGE value="feat: pass the token to make a request when creating a team in a competition" />
     <MESSAGE value="feat: support for optional authentication and campus filtering in the query" />
     <MESSAGE value="refactor: changes the way it gets the team status in crud.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: changes the way it gets the team status in crud.py" />
+    <MESSAGE value="refactor: refactor the generate_log_payload function to convert UUID values to str" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: refactor the generate_log_payload function to convert UUID values to str" />
   </component>
 </project>
