@@ -102,9 +102,30 @@ async def publish_audit_log(log_payload: dict):
                 durable=True
             )
 
+             # 1. Montar o corpo no formato Celery: (args, kwargs, options)
+            celery_body = (
+                [log_payload],  # args: seu payload vai aqui
+                {},             # kwargs: vazio neste caso
+                {"callbacks": None, "errbacks": None, "chain": None, "chord": None},
+            )
+
+            # 2. Definir os cabeçalhos (headers) essenciais do Celery
+            task_id = str(uuid.uuid4())
+            celery_headers = {
+                'lang': 'py',
+                'task': 'process_audit_log', # O nome exato da sua tarefa
+                'id': task_id,
+                'root_id': task_id,
+                'parent_id': None,
+                'group': None,
+            }
+
+            # 3. Criar a mensagem aio_pika com todas as propriedades
             message = aio_pika.Message(
-                body=json.dumps(log_payload).encode(),
-                content_type="application/json",
+                body=json.dumps(celery_body).encode('utf-8'),
+                headers=celery_headers,
+                content_type='application/json',  # Celery usa JSON por padrão
+                content_encoding='utf-8',
                 delivery_mode=aio_pika.DeliveryMode.PERSISTENT
             )
 
