@@ -110,25 +110,6 @@ async def add_team_member_to_team(team_id: uuid.UUID,
 
             await publish_add_member_requested(add_member_message_data)
 
-            old_data = model_to_dict(team)
-            new_data = model_to_dict(team)
-
-            # Gera o payload de log
-            log_payload = generate_log_payload(
-                event_type="team.members_updated",
-                service_origin="teams_service",
-                entity_type="team_member",
-                entity_id=member.user_id,
-                operation_type="UPDATE",
-                campus_code=team.campus_code,
-                user_registration=user_id,
-                request_object=request_object,
-                old_data=old_data,
-                new_data=new_data,
-            )
-
-            run_async_audit(log_payload)
-
             response.status_code = status.HTTP_202_ACCEPTED
             return {
                 "message": "Solicitação de adição de membro enviada para aprovação!",
@@ -198,26 +179,6 @@ async def remove_team_member_from_team(team_id: uuid.UUID,
 
             await publish_remove_member_requested(member_deletion_message_data)
 
-            old_data = model_to_dict(team)
-            new_data = model_to_dict(team)
-
-            # Gera o payload de log
-            log_payload = generate_log_payload(
-                event_type="team.members_updated",
-                service_origin="teams_service",
-                entity_type="team_member",
-                entity_id=member.user_id,
-                operation_type="UPDATE",
-                campus_code=team.campus_code,
-                user_registration=user_id,
-                request_object=request_object,
-                new_data=new_data,
-                old_data=old_data,
-            )
-
-            run_async_audit(log_payload)
-
-            response.status_code = status.HTTP_202_ACCEPTED
             return {
                 "message": "Solicitação de remoção de membro enviada para aprovação!",
                 "team_id": team.id,

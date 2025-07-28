@@ -173,21 +173,6 @@ async def create_team_in_campus(team_request: TeamCreateRequest,
         except Exception as e:
             logger.error("Erro ao publicar mensagem...", exc_info=True)
 
-        # Log de auditoria
-        log_payload = generate_log_payload(
-            campus_code=campus_code,
-            user_registration=current_user.get("user_matricula"),
-            service_origin="teams_service",
-            event_type="team.created",
-            operation_type="CREATE",
-            entity_type="team",
-            entity_id=new_team.id,
-            request_object=request_object,
-            new_data=model_to_dict(new_team),
-        )
-
-        run_async_audit(log_payload)
-
         response.status_code = status.HTTP_202_ACCEPTED
         return {
             "message": "Solicitação de criação de equipe enviada para aprovação!",
@@ -257,23 +242,6 @@ async def delete_team_by_id(team_id: str,
         }
 
         await publish_team_deletion_requested(team_deletion_message_data)
-
-        old_data = model_to_dict(team)
-
-        # Log de auditoria
-        log_payload = generate_log_payload(
-            campus_code=campus_code,
-            user_registration=current_user.get("user_matricula"),
-            service_origin="teams_service",
-            event_type="team.deleted",
-            operation_type="DELETE",
-            entity_type="team",
-            entity_id=team.id,
-            request_object=request_object,
-            old_data=old_data,
-        )
-
-        run_async_audit(log_payload)
 
         response.status_code = status.HTTP_202_ACCEPTED
         return {
