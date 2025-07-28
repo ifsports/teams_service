@@ -49,14 +49,7 @@ def generate_log_payload(
     como objetos Python (prontos para serem serializados como JSON nativo).
     """
     
-    x_forwarded_for = request_object.META.get('HTTP_X_FORWARDED_FOR')
-
-    ip = "127.0.0.1"
-
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0].strip()
-    else:
-        ip = request_object.META.get('REMOTE_ADDR')
+    ip = request_object.client.host if request_object and request_object.client else "127.0.0.1"
 
 
     #if request_object.correlation_id:
