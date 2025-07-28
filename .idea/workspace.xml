@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="feat: support for optional authentication and campus filtering in the query">
+    <list default="true" id="60d8ef41-78ee-4f34-a557-3a8de1d03adb" name="Changes" comment="refactor: changes the way it gets the team status in crud.py">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/crud.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/crud.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messaging/audit_publisher.py" beforeDir="false" afterPath="$PROJECT_DIR$/messaging/audit_publisher.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,7 +186,7 @@
       <workItem from="1753367149926" duration="675000" />
       <workItem from="1753370094278" duration="676000" />
       <workItem from="1753379551635" duration="58000" />
-      <workItem from="1753720381797" duration="7896000" />
+      <workItem from="1753720381797" duration="9203000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit">
       <option name="closed" value="true" />
@@ -436,7 +436,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753370765349</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="refactor: changes the way it gets the team status in crud.py">
+      <option name="closed" value="true" />
+      <created>1753729523517</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1753729523517</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -447,7 +455,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.ini" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="feat: create CRUD endpoints for teams (create, read, update, delete)" />
     <MESSAGE value="feat: add Dockerfile for containerization" />
     <MESSAGE value="feat: add entrypoint to automate migrations" />
     <MESSAGE value="feat: add aio-pika and publisher for creation of &quot;approve_team&quot; request" />
@@ -472,6 +479,7 @@
     <MESSAGE value="refactor: remove campus from path, enforce role-based permissions for Jogador and Organizador in team_members_router.py" />
     <MESSAGE value="feat: pass the token to make a request when creating a team in a competition" />
     <MESSAGE value="feat: support for optional authentication and campus filtering in the query" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: support for optional authentication and campus filtering in the query" />
+    <MESSAGE value="refactor: changes the way it gets the team status in crud.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: changes the way it gets the team status in crud.py" />
   </component>
 </project>

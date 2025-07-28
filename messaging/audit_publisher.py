@@ -48,7 +48,10 @@ def generate_log_payload(
     Gera um payload de log estruturado com old_data e new_data
     como objetos Python (prontos para serem serializados como JSON nativo).
     """
-    
+
+    new_data_value = convert_values(new_data)
+    old_data_value = convert_values(old_data)
+
     ip = request_object.client.host if request_object and request_object.client else "127.0.0.1"
 
 
@@ -67,8 +70,8 @@ def generate_log_payload(
         "operation_type": operation_type,
         "entity_type": entity_type,
         "entity_id": str(entity_id),
-        "old_data": old_data,
-        "new_data": new_data,
+        "old_data": old_data_value,
+        "new_data": new_data_value,
         "ip_address": ip
     }
 
@@ -140,8 +143,20 @@ def model_to_dict(model_instance):
         return {}
     return {c.name: getattr(model_instance, c.name) for c in model_instance.__table__.columns}
 
+def convert_values(obj):
+    if isinstance(obj, dict):
+        return {k: convert_values(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [convert_values(i) for i in obj]
+    elif isinstance(obj, uuid.UUID):
+        return str(obj)
+    elif isinstance(obj, datetime):
+        return obj.isoformat()
+    else:
+        return obj
+
 def run_async_audit(log_payload: dict):
     try:
-        asyncio.run(publish_audit_log(log_payload))
+        asyncio.ensure_future(publish_audit_log(log_payload))
     except Exception as e:
-        print(f"CRITICAL: Falha ao publicar log de auditoria!")
+        print(f"CRITICAL: Falha ao publicar log de auditoria! Erro: {e}")
