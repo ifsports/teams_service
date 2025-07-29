@@ -4,6 +4,8 @@ from shared.dependencies import get_db
 from teams.models import TeamMember
 from teams.models.teams import Team, TeamStatusEnum
 
+from ..messaging.audit_publisher import (run_async_audit, generate_log_payload, model_to_dict)
+
 
 def update_team_from_request_in_db(message_data: dict) -> dict:
     db_gen = get_db()
@@ -59,6 +61,20 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
                 db.add(team_instance)
                 db.commit()
 
+                # audit teams.created
+                log_payload = generate_log_payload(
+                    event_type="teams.created",
+                    service_origin="teams_service",
+                    entity_type="team",
+                    entity_id=team_instance.id,
+                    operation_type="CREATE",
+                    user_registration="system",
+                    campus_code=team_instance.campus_code,
+                    new_data=model_to_dict(team_instance)
+                )
+
+                run_async_audit(log_payload)
+
                 message = "Equipe aprovada e ativada."
 
             elif status_str == "rejected":
@@ -90,6 +106,20 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
 
                     db.add(team_instance)
                     db.commit()
+
+                    # audit teams.deleted
+                    log_payload = generate_log_payload(
+                        event_type="teams.deleted",
+                        service_origin="teams_service",
+                        entity_type="team",
+                        entity_id=team_instance.id,
+                        operation_type="DELETE",
+                        user_registration="system",
+                        campus_code=team_instance.campus_code,
+                        old_data= model_to_dict(team_instance)
+                    )
+
+                    run_async_audit(log_payload)
 
                     message = f"Equipe {team_instance.id} marcada como fechada."
             elif status_str == "rejected":
@@ -126,8 +156,25 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
             if status_str == "approved":
                 new_member = TeamMember(user_id=user_id_str, team_id=team_instance.id)
 
+                old_data = model_to_dict(team_instance)
+
                 db.add(new_member)
                 db.commit()
+
+                # audit team_members.updated
+                log_payload = generate_log_payload(
+                    event_type="team.members.updated",
+                    service_origin="teams_service",
+                    entity_type="team_member",
+                    entity_id=new_member.id,
+                    operation_type="UPDATE",
+                    user_registration="system",
+                    campus_code=team_instance.campus_code,
+                    old_data=old_data,
+                    new_data=model_to_dict(team_instance)
+                )
+
+                run_async_audit(log_payload)
 
                 message = "Membro adicionado à equipe."
 
@@ -162,8 +209,26 @@ def update_team_from_request_in_db(message_data: dict) -> dict:
                 }
 
             if status_str == "approved":
+                old_data = model_to_dict(team_instance)
+                
                 db.delete(member_to_remove)
                 db.commit()
+
+                # audit team_members.updated
+
+                log_payload = generate_log_payload(
+                    event_type="team.members.updated",
+                    service_origin="teams_service",
+                    entity_type="team_member",
+                    entity_id=new_member.id,
+                    operation_type="UPDATE",
+                    user_registration="system",
+                    campus_code=team_instance.campus_code,
+                    old_data=old_data,
+                    new_data=model_to_dict(team_instance)
+                )
+
+                run_async_audit(log_payload)
 
                 message = "Membro removido da equipe."
 
