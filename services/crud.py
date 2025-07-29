@@ -4,7 +4,7 @@ from shared.dependencies import get_db
 from teams.models import TeamMember
 from teams.models.teams import Team, TeamStatusEnum
 
-from ..messaging.audit_publisher import (run_async_audit, generate_log_payload, model_to_dict)
+from messaging.audit_publisher import run_async_audit, generate_log_payload, model_to_dict
 
 
 def update_team_from_request_in_db(message_data: dict) -> dict:
