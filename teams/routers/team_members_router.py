@@ -21,22 +21,72 @@ from teams.schemas.team_members import TeamMemberCreateRequest, TeamMemberDelete
 
 from messaging.audit_publisher import run_async_audit, generate_log_payload, model_to_dict
 
+# Manteremos os 'responses' porque são úteis para as ferramentas interativas
+# como /docs e /redoc, mesmo que o Sphinx não os use para gerar os blocos de JSON.
+responses_get_members = {
+    200: {"description": "Membros da equipe retornados com sucesso."},
+    403: {"description": "O usuário não tem permissão para visualizar os membros."},
+    404: {"description": "A equipe com o ID fornecido não foi encontrada."}
+}
+responses_add_member = {
+    202: {"description": "Solicitação para adicionar membro foi recebida e enviada para aprovação."},
+    400: {"description": "O usuário a ser adicionado não é válido ou não foi encontrado no serviço de autenticação."},
+    403: {"description": "O usuário solicitante não tem permissão para adicionar membros."},
+    404: {"description": "A equipe com o ID fornecido não foi encontrada."},
+    409: {"description": "O usuário já é um membro da equipe."}
+}
+responses_remove_member = {
+    200: {"description": "Solicitação para remover membro foi recebida e enviada para aprovação."},
+    400: {"description": "O motivo da remoção é obrigatório e não foi fornecido."},
+    403: {"description": "O usuário solicitante não tem permissão para remover membros."},
+    404: {"description": "A equipe ou o membro não foram encontrados."}
+}
+
 router = APIRouter(
     prefix="/api/v1/teams/{team_id}/members",
     tags=["Team Members"]
 )
 
 
-@router.get("/")
+@router.get("/", responses=responses_get_members)
 async def get_team_members_by_team_id(team_id: str,
                                       response: Response,
                                       db: Session = Depends(get_db),
                                       current_user: dict = Depends(get_current_user)):
+    """
+    Get Team Members By Team Id
 
+    Obtém todos os membros de uma equipe específica.
+
+    - **Autenticação**: Requer um token de usuário válido.
+    - **Autorização**: O usuário autenticado deve pertencer ao grupo 'Jogador' ou 'Organizador'.
+    - A busca da equipe é limitada ao campus do usuário autenticado.
+
+    **Exemplo de Resposta:**
+
+    .. code-block:: json
+
+       [
+         {
+           "user_id": "20231012030011",
+           "team_id": "a1b2c3d4-e5f6-a7b8-c9d0-e1f2a3b4c5d6",
+           "created_at": "2025-08-04T21:14:25.123Z",
+           "updated_at": "2025-08-04T21:14:25.123Z"
+         },
+         {
+           "user_id": "20231012030015",
+           "team_id": "a1b2c3d4-e5f6-a7b8-c9d0-e1f2a3b4c5d6",
+           "created_at": "2025-08-04T21:15:00.456Z",
+           "updated_at": "2025-08-04T21:15:00.456Z"
+         }
+       ]
+
+    """
     campus_code = current_user["campus"]
     groups = current_user["groups"]
 
-    team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
+    team: Team = db.query(Team).filter(
+        Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
 
     if not team:
         raise NotFound("Equipe")
@@ -54,19 +104,46 @@ async def get_team_members_by_team_id(team_id: str,
         )
 
 
-@router.post("/")
+@router.post("/", responses=responses_add_member, status_code=status.HTTP_202_ACCEPTED)
 async def add_team_member_to_team(team_id: uuid.UUID,
                                   team_member_request: TeamMemberCreateRequest,
                                   response: Response,
                                   request_object: Request,
                                   db: Session = Depends(get_db),
                                   current_user: dict = Depends(get_current_user)):
+    """
+    Add Team Member To Team
 
+    Envia uma solicitação para adicionar um novo membro a uma equipe.
+
+    - **Autenticação**: Requer um token de usuário válido.
+    - **Autorização**: O usuário solicitante deve ser membro da equipe e pertencer aos grupos 'Jogador' ou 'Organizador'.
+    - **Validação**: O `user_id` do novo membro é validado contra o serviço de autenticação.
+
+    **Exemplo de Corpo da Requisição (Payload):**
+
+    .. code-block:: json
+
+       {
+         "user_id": "20231012030020"
+       }
+
+    **Exemplo de Resposta (202 Accepted):**
+
+    .. code-block:: json
+
+       {
+         "message": "Solicitação de adição de membro enviada para aprovação!",
+         "team_id": "a1b2c3d4-e5f6-a7b8-c9d0-e1f2a3b4c5d6",
+         "member_id": "20231012030020"
+       }
+    """
     user_id = current_user["user_matricula"]
     campus_code = current_user["campus"]
     groups = current_user["groups"]
 
-    team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
+    team: Team = db.query(Team).filter(
+        Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
 
     if not team:
         raise NotFound("Equipe")
@@ -110,7 +187,6 @@ async def add_team_member_to_team(team_id: uuid.UUID,
 
             await publish_add_member_requested(add_member_message_data)
 
-            response.status_code = status.HTTP_202_ACCEPTED
             return {
                 "message": "Solicitação de adição de membro enviada para aprovação!",
                 "team_id": team.id,
@@ -130,7 +206,7 @@ async def add_team_member_to_team(team_id: uuid.UUID,
         )
 
 
-@router.delete("/{team_member_id}")
+@router.delete("/{team_member_id}", responses=responses_remove_member)
 async def remove_team_member_from_team(team_id: uuid.UUID,
                                        team_member_request: TeamMemberDeleteRequest,
                                        team_member_id: str,
@@ -138,12 +214,39 @@ async def remove_team_member_from_team(team_id: uuid.UUID,
                                        request_object: Request,
                                        db: Session = Depends(get_db),
                                        current_user: dict = Depends(get_current_user)):
+    """
+    Remove Team Member From Team
 
+    Envia uma solicitação para remover um membro de uma equipe.
+
+    - **Autenticação**: Requer um token de usuário válido.
+    - **Autorização**: O usuário solicitante deve ser membro da equipe e pertencer aos grupos 'Jogador' ou 'Organizador'.
+    - **Corpo da Requisição**: É obrigatório fornecer um `reason` (motivo) para a remoção.
+
+    **Exemplo de Corpo da Requisição (Payload):**
+
+    .. code-block:: json
+
+       {
+         "reason": "O membro solicitou a sua saída da equipe."
+       }
+
+    **Exemplo de Resposta:**
+
+    .. code-block:: json
+
+       {
+         "message": "Solicitação de remoção de membro enviada para aprovação!",
+         "team_id": "a1b2c3d4-e5f6-a7b8-c9d0-e1f2a3b4c5d6",
+         "member_id": "20231012030015"
+       }
+    """
     user_id = current_user["user_matricula"]
     campus_code = current_user["campus"]
     groups = current_user["groups"]
 
-    team: Team = db.query(Team).filter(Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
+    team: Team = db.query(Team).filter(
+        Team.id == team_id, Team.campus_code == campus_code).first()  # type: ignore
 
     if not team:
         raise NotFound("Equipe")
